@@ -1,0 +1,21 @@
+{
+  "name": "eloquent_javascript",
+  "version": "1.0.0",
+  "description": "This is my attempt to go over eloquent javascript book.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node --watch main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morteza-rostami-cs/eloquent_javascript.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/morteza-rostami-cs/eloquent_javascript/issues"
+  },
+  "homepage": "https://github.com/morteza-rostami-cs/eloquent_javascript#readme"
+}
