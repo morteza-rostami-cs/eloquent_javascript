@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="description" content="" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>trig</title>
+  </head>
+  <body>
+    <h1>circular motion2</h1>
+    <canvas
+      id="canvas"
+      width="600"
+      height="400"
+      style="background: lightblue"
+    ></canvas>
+
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // window.alert(canvas.nodeName);
+
+      const circle = {
+        cx: 300,
+        cy: 200,
+        radius: 100,
+      };
+
+      // angle of rotating point around the circle
+      // let angle = 0;
+      const planet = {
+        x: 0,
+        y: 0,
+        r: 10,
+        angle: 0,
+      };
+
+      // loop this function
+      function draw() {
+        // clear screen
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // draw the orbit/circle
+        ctx.beginPath();
+        ctx.arc(
+          circle.cx,
+          circle.cy,
+          circle.radius,
+          // from 0 to 360
+          0,
+          Math.PI * 2,
+        );
+        //   window.alert("hi");
+        ctx.fillStyle = "white";
+        ctx.fill();
+        ctx.stroke();
+
+        // calc the object position on circle arc, each frame
+        planet.x = circle.cx + circle.radius * Math.cos(planet.angle);
+        planet.y = circle.cy + circle.radius * Math.sin(planet.angle);
+
+        // draw the object/point orbiting on the arc of our circle
+        // small circle or point
+        ctx.beginPath();
+        ctx.arc(
+          planet.x,
+          planet.y,
+          planet.r, // radius
+          0,
+          Math.PI * 2,
+        );
+        ctx.fillStyle = "red";
+        ctx.fill();
+
+        // increase the angle each frame and it oscillate between -1 0 +1 for ever
+        //   planet.angle += 0.02;
+
+        // counter clock wise
+        // !!! notice !!! => on screen: +y goes down and -y goes up => this explains:: why
+        // +angle , goes clockWise
+        // -angle, goes counter clockWise
+        planet.angle -= 0.008;
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    </script>
+  </body>
+</html>
