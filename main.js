@@ -8,4 +8,5 @@
 
 // import * as l from "./chapter3/lesson1.js";
 // import * as l from "./chapter3/lesson2.js";
-import * as l from "./chapter3/exercises.js";
+// import * as l from "./chapter3/exercises.js";
+import * as l from "./chapter4/lesson1.js";
