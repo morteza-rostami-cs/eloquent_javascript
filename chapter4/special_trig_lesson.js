@@ -249,3 +249,113 @@ console.log("===");
   console.log(getPointOnCircle(180, 300, 200, 100));
   console.log(getPointOnCircle(270, 300, 200, 100));
 }
+
+{
+  // .tan()
+  // takes a radian angle
+  // returns, a slope
+  // slope formula
+  // change in y / change in x
+  // m = y2 - y1 / x2 - x1
+  // tan(theta) calc the same thing as above formula (slope),
+  // it just does it, using:: angle of that line,
+  // we are talking about the angle that it makes with the x-axis
+
+  const angle = 45;
+  const radians = degreesToRadians(angle);
+
+  // tangent or slop or rise/run or sin(t)/cos(t)
+  // slope of a line , that rises in 45deg angle
+  // slope is the rate of change, so a ratio, rise/run
+  // slope is not length/magnitude of hypotenuse or radius
+  //Tangent compares the vertical distance to the horizontal distance.
+  const slope = Math.tan(radians);
+
+  console.log(slope); // almost 1
+}
+
+{
+  //  =================
+
+  // at 90deg slope should approach inf, cause: we have a vertical line, x=0, and y=anything
+  // y/0 = undefined
+  const angle = 90;
+  const radians = degreesToRadians(angle);
+
+  const slope = Math.tan(radians);
+  console.log(slope);
+}
+
+{
+  // we have slope and we want the angle
+  // inverse tangent
+  // theta = tan-1(m) => put tan(t) inside
+
+  const radians = degreesToRadians(45);
+  console.log(`angle ${radians}`);
+  const slope = Math.tan(radians);
+  const angle = Math.atan(slope);
+
+  // we get the angle in radians back, from slope
+  console.log(angle);
+
+  //   Important: Math.atan() returns an angle between approximately -90° and 90°. It cannot distinguish every possible direction of a line or vector.
+
+  // We'll solve that problem with Math.atan2() shortly.
+}
+
+{
+  // calc height
+  // x = 10, angle=30deg, y=? (or height)
+  // tan(30deg) = h / 10
+  // do some algebra, multi both sides by 10
+  // h = tan(30deg) * 10
+  // so, to find height, we have distance to object and the angle to top of the target, we can calc, how high we should jump
+  // h = tan(deg) * x
+
+  function calcHeight(xDistance, angleDegrees) {
+    const radians = degreesToRadians(angleDegrees);
+
+    return Math.tan(radians) * xDistance;
+  }
+
+  // 10 px to the wall, and angle from character to top of the wall is, 30deg
+  const height = calcHeight(10, 30);
+  console.log(height); // 5.77 , should be the height of our jump
+}
+
+{
+  // we have two points , and we want the angle of rotation
+  const player = {
+    x: 100,
+    y: 100,
+  };
+
+  const goblin = {
+    x: 300,
+    y: 200,
+  };
+
+  function getAngleToTarget(fromX, fromY, toX, toY) {
+    // calc direction vector, which is just vector subtraction
+    const dx = toX - fromX;
+    const dy = toY - fromY;
+
+    const radians = Math.atan2(dy, dx);
+    return radians;
+  }
+
+  console.log(getAngleToTarget(player.x, player.y, goblin.x, goblin.y));
+  // find the direction vector?? goblin is the target, so, player wants to turn towards goblin
+  //   const dx = goblin.x - player.x;
+  //   const dy = goblin.y - player.y;
+
+  //   console.log(dx, dy); // 200, 100
+
+  // now:: we find the angle
+  //   const angle = Math.atan2(dy, dx);
+  //   console.log(angle); // in radians
+  //   console.log(radiansToDegrees(angle)); // 26.56deg
+
+  // atan2 => handles also negative angles, so we know the quadrant, and we can turn left or right and so on!!
+}

@@ -261,14 +261,14 @@ if (lionCopy === lion) console.log("same lion"); //runs
   `;
 
   function phi(table) {
+    const n00 = table[0]; // 0
+    const n01 = table[1]; // 1
+    const n10 = table[2]; // binary 2
+    const n11 = table[3]; // binary
+
     return (
-      (table[3] * table[0] - table[2] * table[1]) /
-      Math.sqrt(
-        (table[2] + table[3]) *
-          (table[0] + table[1]) *
-          (table[1] + table[3]) *
-          (table[0] + table[2]),
-      )
+      (n11 * n00 - n10 * n01) /
+      Math.sqrt((n10 + n11) * (n00 + n01) * (n01 + n11) * (n00 + n10))
     );
   }
 

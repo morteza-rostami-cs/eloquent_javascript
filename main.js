@@ -11,6 +11,7 @@
 // import * as l from "./chapter3/exercises.js";
 // import * as l from "./chapter4/lesson1.js";
 
-import * as l from "./chapter4/special_trig_lesson.js";
+// import * as l from "./chapter4/special_trig_lesson.js";
 
 // import * as l from "./chapter4/lesson2.js";
+import * as l from "./chapter4/exercises.js";
