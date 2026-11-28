@@ -322,3 +322,191 @@ console.log(nth(list, 2));
 }
 
 // deep comparison
+
+// so, == compares the reference of objects and not the value
+// but, what if we want to compare the values of their actual properties
+// write a func, deepEqual()
+// takes two values
+// return true if
+// they are the same values
+// or objects with same properties and values
+// basically:: the values of the props are equal when compared
+// use a recursive call to deepEqual()
+// so, first find out if values are primitives or object, using:: typeof === "object"
+// if both are objects:: do a deep comparison of props.
+// be careful:: typeof null == "object"
+
+const animal = {
+  name: "chicken",
+  age: 23,
+};
+
+console.log(Object.keys(animal));
+
+function loopObj(obj, index = 0) {
+  const keys = Object.keys(obj);
+
+  if (index >= keys.length) return false;
+  console.log(keys[index]);
+
+  return loopObj(obj, (index += 1));
+}
+
+// loopObj(animal);
+
+function deepEqual(a, b) {
+  // if both are primitive values
+  if (typeof a !== "object" && typeof b !== "object") {
+    return a === b;
+  }
+
+  // we should get the key:values from => the object with more property
+  // cause: the smaller one either has all the props, or it does not, or it has all + another one, which in that case: the smaller one (becomes bigger one)
+  let big = null;
+  let small = null;
+
+  if (Object.keys(a).length > Object.keys(b).length) {
+    big = a;
+    small = b;
+  } else {
+    big = b;
+    small = a;
+  }
+
+  for (let [key, val] of Object.entries(big)) {
+    console.log(key);
+    if (!(key in small)) {
+      // objects have different prop names
+      console.log("==no key");
+      return false;
+    }
+    // if, prop exists, now check the value
+    if (b[key] !== val) {
+      return false; // value not equal
+    }
+  }
+  //  key exists and values equal
+  return true;
+}
+
+console.log("====");
+// console.log(deepEqual("boob", "boob"));
+// console.log(deepEqual({ name: "ali" }, { name: "ali" }));
+// console.log(deepEqual({ score: 20 }, { score: 20, power: 3.4 }));
+
+{
+  function deepEqual(a, b) {
+    // both primitive
+    if (typeof a !== "object" && typeof b !== "object") {
+      return a === b;
+    }
+
+    // objet vs primitive => they can not be equal
+    // if, one of them is not an object
+    if (typeof a !== "object" || typeof b !== "object") {
+      return false;
+    }
+
+    // typeof null === "object"
+    if (a === null && b === null) return true; // same value
+    // if one is null, two values are not equal, (we here handle null specifically)
+    if (a === null || b === null) return false;
+
+    // get the keys from the bigger object
+    let keys = null;
+    const aKeys = Object.keys(a);
+    const bKeys = Object.keys(b);
+
+    //  find the object with more keys
+    // cause: smaller one, either has all the same keys and values => or it has one more prop, which is not smaller one anymore!!
+    //when, same length => just use the first one
+    if (aKeys.length >= bKeys.length) {
+      keys = aKeys;
+    } else {
+      keys = bKeys;
+    }
+
+    for (let k of keys) {
+      // check if key exists in both, if it does not, return false
+      // both have to have the same key
+      if (!Object.hasOwn(a, k) || !Object.hasOwn(b, k)) {
+        return false;
+      }
+
+      const v1 = a[k];
+      const v2 = b[k];
+
+      // if both are arrays
+      // cause: array is also "object", we check it first
+      if (Array.isArray(v1) && Array.isArray(v2)) {
+        // if one array is longer , we assume inequality
+        if (v1.length !== v2.length) return false;
+
+        for (let i = 0; i < v1.length; i++) {
+          // every array elements should be equal
+          if (v1[i] !== v2[i]) return false;
+        }
+        // move to the next prop, which might not be an array
+        continue;
+      }
+
+      //lets cover nested objects, if both are objects
+      if (typeof v1 === "object" && typeof v2 === "object") {
+        // recursive call for processing nested objects
+        //   console.log(k);
+        // remember to return the value from deeper frames
+        const res = deepEqual(v1, v2);
+        // in that frame for nested object, we either find some thing that is not equal, which the frame returns false, or true , if we not find anything that is not equal
+        if (res)
+          continue; // to next prop
+        else return res; // we found something that is not equal
+      }
+
+      // if, key does not exist => we get undefined => so our logic still works!
+      // if one value is array, and the other primitive or other objects, will be rejected here!!
+
+      // {name: undefined} vs {name: undefined}, it actually passes as equal
+      if (v1 !== v2) {
+        return false;
+      }
+    }
+
+    //  all props were equal
+    return true;
+  }
+
+  //   const r = deepEqual(
+  //     { name: "ali", score: 23, isPlaying: true },
+  //     { name: "ali", score: 23, isPlaying: true },
+  //   );
+  //   console.log(r);
+
+  //   console.log(deepEqual(4, { name: "ali" }));
+
+  //   console.log(deepEqual({ x: 1, y: 2 }, { x: 1, y: 2, z: 3 }));
+
+  //   console.log(
+  //     deepEqual(
+  //       { name: "ali", items: ["shoe", "potion"] },
+  //       { name: "ali", items: ["shoe3", "potion"] },
+  //     ),
+  //   );
+
+  console.log(
+    deepEqual(
+      { name: "player", gun: { power: 20 }, score: 2, items: ["sward"] },
+      { name: "player", gun: { power: 20 }, score: 2, items: ["sward", "gun"] },
+    ),
+  );
+  console.log(deepEqual({ name: undefined }, { name: undefined }));
+
+  console.log(deepEqual({ name: undefined }, { age: undefined }));
+}
+
+// const boo = { name: "boo" };
+// if prop does not exists => undefined
+// console.log(typeof boo["age"]);
+
+// console.log([2] === [2]);
+// const names = ["al", "sara"];
+// console.log(typeof names[3]);
